@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AccentureAcademyBooksModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Autor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Nacionalidad" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LenguaMaterna" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FechaDeNacimiento" Type="date" Nullable="false" />
+          <Property Name="AreaDeEspecialidad" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Editorial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="PaisDeOrigen" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Especialidad" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FechaDeFundacion" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EscritoPor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Autor_Id" Type="int" Nullable="false" />
+          <Property Name="Libro_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Genero">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Genre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="8000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GeneroLibro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Genero_Id" Type="int" Nullable="false" />
+          <Property Name="Libro_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Libro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titulo" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Autor" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Formato" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FechaDePublicacion" Type="date" Nullable="false" />
+          <Property Name="Idioma" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ISBN" Type="int" Nullable="false" />
+          <Property Name="NumPags" Type="int" Nullable="false" />
+          <Property Name="Editorial" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Genero" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PublicadoPor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Editorial_Id" Type="int" Nullable="false" />
+          <Property Name="Libro_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AUTOR">
+          <End Role="Autor" Type="Self.Autor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EscritoPor" Type="Self.EscritoPor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EscritoPor">
+              <PropertyRef Name="Autor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOK">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GeneroLibro" Type="Self.GeneroLibro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GeneroLibro">
+              <PropertyRef Name="Libro_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EDITORIAL">
+          <End Role="Autor" Type="Self.Autor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PublicadoPor" Type="Self.PublicadoPor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PublicadoPor">
+              <PropertyRef Name="Editorial_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENERO">
+          <End Role="Autor" Type="Self.Autor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="GeneroLibro" Type="Self.GeneroLibro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GeneroLibro">
+              <PropertyRef Name="Genero_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LIB">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EscritoPor" Type="Self.EscritoPor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EscritoPor">
+              <PropertyRef Name="Libro_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LIBRO">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PublicadoPor" Type="Self.PublicadoPor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PublicadoPor">
+              <PropertyRef Name="Libro_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AccentureAcademyBooksModelStoreContainer">
+          <EntitySet Name="Autor" EntityType="Self.Autor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Editorial" EntityType="Self.Editorial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EscritoPor" EntityType="Self.EscritoPor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GeneroLibro" EntityType="Self.GeneroLibro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Libro" EntityType="Self.Libro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PublicadoPor" EntityType="Self.PublicadoPor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AUTOR" Association="Self.FK_AUTOR">
+            <End Role="Autor" EntitySet="Autor" />
+            <End Role="EscritoPor" EntitySet="EscritoPor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOK" Association="Self.FK_BOOK">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="GeneroLibro" EntitySet="GeneroLibro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EDITORIAL" Association="Self.FK_EDITORIAL">
+            <End Role="Autor" EntitySet="Autor" />
+            <End Role="PublicadoPor" EntitySet="PublicadoPor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENERO" Association="Self.FK_GENERO">
+            <End Role="Autor" EntitySet="Autor" />
+            <End Role="GeneroLibro" EntitySet="GeneroLibro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LIB" Association="Self.FK_LIB">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="EscritoPor" EntitySet="EscritoPor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LIBRO" Association="Self.FK_LIBRO">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="PublicadoPor" EntitySet="PublicadoPor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AccentureAcademyBooksModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AccentureAcademyBooksEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Autor" EntityType="AccentureAcademyBooksModel.Autor" />
+          <EntitySet Name="Editorial" EntityType="AccentureAcademyBooksModel.Editorial" />
+          <EntitySet Name="EscritoPor" EntityType="AccentureAcademyBooksModel.EscritoPor" />
+          <EntitySet Name="Genero" EntityType="AccentureAcademyBooksModel.Genero" />
+          <EntitySet Name="GeneroLibro" EntityType="AccentureAcademyBooksModel.GeneroLibro" />
+          <EntitySet Name="Libro" EntityType="AccentureAcademyBooksModel.Libro" />
+          <EntitySet Name="PublicadoPor" EntityType="AccentureAcademyBooksModel.PublicadoPor" />
+          <AssociationSet Name="FK_AUTOR" Association="AccentureAcademyBooksModel.FK_AUTOR">
+            <End Role="Autor" EntitySet="Autor" />
+            <End Role="EscritoPor" EntitySet="EscritoPor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EDITORIAL" Association="AccentureAcademyBooksModel.FK_EDITORIAL">
+            <End Role="Autor" EntitySet="Autor" />
+            <End Role="PublicadoPor" EntitySet="PublicadoPor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GENERO" Association="AccentureAcademyBooksModel.FK_GENERO">
+            <End Role="Autor" EntitySet="Autor" />
+            <End Role="GeneroLibro" EntitySet="GeneroLibro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LIB" Association="AccentureAcademyBooksModel.FK_LIB">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="EscritoPor" EntitySet="EscritoPor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOK" Association="AccentureAcademyBooksModel.FK_BOOK">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="GeneroLibro" EntitySet="GeneroLibro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LIBRO" Association="AccentureAcademyBooksModel.FK_LIBRO">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="PublicadoPor" EntitySet="PublicadoPor" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Autor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Nacionalidad" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="LenguaMaterna" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FechaDeNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AreaDeEspecialidad" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EscritoPor" Relationship="AccentureAcademyBooksModel.FK_AUTOR" FromRole="Autor" ToRole="EscritoPor" />
+          <NavigationProperty Name="PublicadoPor" Relationship="AccentureAcademyBooksModel.FK_EDITORIAL" FromRole="Autor" ToRole="PublicadoPor" />
+          <NavigationProperty Name="GeneroLibro" Relationship="AccentureAcademyBooksModel.FK_GENERO" FromRole="Autor" ToRole="GeneroLibro" />
+        </EntityType>
+        <EntityType Name="Editorial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PaisDeOrigen" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Especialidad" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FechaDeFundacion" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="EscritoPor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Autor_Id" Type="Int32" Nullable="false" />
+          <Property Name="Libro_Id" Type="Int32" />
+          <NavigationProperty Name="Autor" Relationship="AccentureAcademyBooksModel.FK_AUTOR" FromRole="EscritoPor" ToRole="Autor" />
+          <NavigationProperty Name="Libro" Relationship="AccentureAcademyBooksModel.FK_LIB" FromRole="EscritoPor" ToRole="Libro" />
+        </EntityType>
+        <EntityType Name="Genero">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Genre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="8000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GeneroLibro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Genero_Id" Type="Int32" Nullable="false" />
+          <Property Name="Libro_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Autor" Relationship="AccentureAcademyBooksModel.FK_GENERO" FromRole="GeneroLibro" ToRole="Autor" />
+          <NavigationProperty Name="Libro" Relationship="AccentureAcademyBooksModel.FK_BOOK" FromRole="GeneroLibro" ToRole="Libro" />
+        </EntityType>
+        <EntityType Name="Libro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Titulo" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Autor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Formato" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FechaDePublicacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Idioma" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ISBN" Type="Int32" Nullable="false" />
+          <Property Name="NumPags" Type="Int32" Nullable="false" />
+          <Property Name="Editorial" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Genero" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EscritoPor" Relationship="AccentureAcademyBooksModel.FK_LIB" FromRole="Libro" ToRole="EscritoPor" />
+          <NavigationProperty Name="GeneroLibro" Relationship="AccentureAcademyBooksModel.FK_BOOK" FromRole="Libro" ToRole="GeneroLibro" />
+          <NavigationProperty Name="PublicadoPor" Relationship="AccentureAcademyBooksModel.FK_LIBRO" FromRole="Libro" ToRole="PublicadoPor" />
+        </EntityType>
+        <EntityType Name="PublicadoPor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Editorial_Id" Type="Int32" Nullable="false" />
+          <Property Name="Libro_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Autor" Relationship="AccentureAcademyBooksModel.FK_EDITORIAL" FromRole="PublicadoPor" ToRole="Autor" />
+          <NavigationProperty Name="Libro" Relationship="AccentureAcademyBooksModel.FK_LIBRO" FromRole="PublicadoPor" ToRole="Libro" />
+        </EntityType>
+        <Association Name="FK_AUTOR">
+          <End Type="AccentureAcademyBooksModel.Autor" Role="Autor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AccentureAcademyBooksModel.EscritoPor" Role="EscritoPor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EscritoPor">
+              <PropertyRef Name="Autor_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EDITORIAL">
+          <End Type="AccentureAcademyBooksModel.Autor" Role="Autor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AccentureAcademyBooksModel.PublicadoPor" Role="PublicadoPor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PublicadoPor">
+              <PropertyRef Name="Editorial_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GENERO">
+          <End Type="AccentureAcademyBooksModel.Autor" Role="Autor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AccentureAcademyBooksModel.GeneroLibro" Role="GeneroLibro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Autor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GeneroLibro">
+              <PropertyRef Name="Genero_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LIB">
+          <End Type="AccentureAcademyBooksModel.Libro" Role="Libro" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AccentureAcademyBooksModel.EscritoPor" Role="EscritoPor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EscritoPor">
+              <PropertyRef Name="Libro_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOK">
+          <End Type="AccentureAcademyBooksModel.Libro" Role="Libro" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AccentureAcademyBooksModel.GeneroLibro" Role="GeneroLibro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GeneroLibro">
+              <PropertyRef Name="Libro_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LIBRO">
+          <End Type="AccentureAcademyBooksModel.Libro" Role="Libro" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AccentureAcademyBooksModel.PublicadoPor" Role="PublicadoPor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PublicadoPor">
+              <PropertyRef Name="Libro_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AccentureAcademyBooksModelStoreContainer" CdmEntityContainer="AccentureAcademyBooksEntities">
+          <EntitySetMapping Name="Autor">
+            <EntityTypeMapping TypeName="AccentureAcademyBooksModel.Autor">
+              <MappingFragment StoreEntitySet="Autor">
+                <ScalarProperty Name="AreaDeEspecialidad" ColumnName="AreaDeEspecialidad" />
+                <ScalarProperty Name="FechaDeNacimiento" ColumnName="FechaDeNacimiento" />
+                <ScalarProperty Name="LenguaMaterna" ColumnName="LenguaMaterna" />
+                <ScalarProperty Name="Nacionalidad" ColumnName="Nacionalidad" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Editorial">
+            <EntityTypeMapping TypeName="AccentureAcademyBooksModel.Editorial">
+              <MappingFragment StoreEntitySet="Editorial">
+                <ScalarProperty Name="FechaDeFundacion" ColumnName="FechaDeFundacion" />
+                <ScalarProperty Name="Especialidad" ColumnName="Especialidad" />
+                <ScalarProperty Name="PaisDeOrigen" ColumnName="PaisDeOrigen" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EscritoPor">
+            <EntityTypeMapping TypeName="AccentureAcademyBooksModel.EscritoPor">
+              <MappingFragment StoreEntitySet="EscritoPor">
+                <ScalarProperty Name="Libro_Id" ColumnName="Libro_Id" />
+                <ScalarProperty Name="Autor_Id" ColumnName="Autor_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genero">
+            <EntityTypeMapping TypeName="AccentureAcademyBooksModel.Genero">
+              <MappingFragment StoreEntitySet="Genero">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GeneroLibro">
+            <EntityTypeMapping TypeName="AccentureAcademyBooksModel.GeneroLibro">
+              <MappingFragment StoreEntitySet="GeneroLibro">
+                <ScalarProperty Name="Libro_Id" ColumnName="Libro_Id" />
+                <ScalarProperty Name="Genero_Id" ColumnName="Genero_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Libro">
+            <EntityTypeMapping TypeName="AccentureAcademyBooksModel.Libro">
+              <MappingFragment StoreEntitySet="Libro">
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Editorial" ColumnName="Editorial" />
+                <ScalarProperty Name="NumPags" ColumnName="NumPags" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Idioma" ColumnName="Idioma" />
+                <ScalarProperty Name="FechaDePublicacion" ColumnName="FechaDePublicacion" />
+                <ScalarProperty Name="Formato" ColumnName="Formato" />
+                <ScalarProperty Name="Autor" ColumnName="Autor" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PublicadoPor">
+            <EntityTypeMapping TypeName="AccentureAcademyBooksModel.PublicadoPor">
+              <MappingFragment StoreEntitySet="PublicadoPor">
+                <ScalarProperty Name="Libro_Id" ColumnName="Libro_Id" />
+                <ScalarProperty Name="Editorial_Id" ColumnName="Editorial_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

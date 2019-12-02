@@ -1,0 +1,162 @@
+﻿@model ProyectoFinal.Models.Libro
+
+<h1> @this.ViewBag.TituloPagina </h1>
+
+<main class="container">
+    <form method="post">
+
+        <!-- id="" y for="": al hacer click en el nombre del campo se selecciona para editar
+         name="": el nombre de la clase que proviene de sql
+        value="": valor que se va mostrar
+        -->
+        <label for="txtTitulo">Título</label>
+
+        @Html.EditorFor(m => m.Titulo,
+new
+{
+   htmlAttributes = new
+   {
+       @class = "form-control",
+       placerholder = "Ingrese un título",
+
+   }
+})
+
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.Titulo)
+        </div>
+
+
+
+
+        <label for="txtAutor">Autor</label>
+        @Html.DropDownList("Autor", null, "Seleccione un autor", htmlAttributes: new { @class = "form-control" })
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.Autor)
+        </div>
+
+        <label for="txtGenero">Género</label>
+
+        @Html.DropDownList("Genero", null, "Seleccione un género", htmlAttributes: new { @class = "form-control" })
+
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.Genero)
+        </div>
+
+        <label for="txtFormato">Formato</label>
+
+
+        <div>
+            @{
+                var listado = new List<SelectListItem>()
+                                                                                            {
+                    new SelectListItem()
+                    {
+                        Text="Físico",
+                    },
+                    new SelectListItem()
+                    {
+                        Text="Digital",
+                    },
+                    new SelectListItem()
+                    {
+                        Text="Audiolibro",
+                    },
+                    new SelectListItem()
+                    {
+                        Text="Braille",
+                    }
+
+                };
+            }
+
+            @Html.DropDownListFor(m => m.Formato, listado, htmlAttributes: new { @class = "form-control" })
+        </div>
+
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.Formato)
+        </div>
+
+
+
+        <label for="txtFecha">Fecha de puclicación MM/DD/AAAA</label>
+
+        @Html.EditorFor(m => m.FechaDePublicacion,
+             new
+             {
+                 htmlAttributes = new
+                 {
+                     @class = "form-control",
+                     placerholder = "Ingrese fecha de publicación",
+
+                 }
+             })
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.FechaDePublicacion)
+        </div>
+        <label for="txtIdioma">Idioma</label>
+
+        @Html.EditorFor(m => m.Idioma,
+          new
+          {
+              htmlAttributes = new
+              {
+                  @class = "form-control",
+                  placerholder = "Ingrese idioma",
+
+              }
+          })
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.Idioma)
+        </div>
+
+        <label for="txtISBN">ISBN</label>
+
+        @Html.EditorFor(m => m.ISBN,
+               new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       placerholder = "Ingrese ISBN",
+
+                   }
+               })
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.ISBN)
+        </div>
+
+        <label for="txtPags">Cantidad de páginas</label>
+
+        @Html.EditorFor(m => m.NumPags,
+             new
+             {
+                 htmlAttributes = new
+                 {
+                     @class = "form-control",
+                     placerholder = "Ingrese cantidad de páginas",
+
+                 }
+             })
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.NumPags)
+        </div>
+
+        <label for="txtEditorial">Editorial</label>
+
+        @Html.DropDownList("Editorial", null, "Seleccione una editorial", htmlAttributes: new { @class = "form-control" })
+
+
+        <div style="color:red">
+            @Html.ValidationMessageFor(m => m.Editorial)
+        </div>
+
+
+
+
+        <button class=" btn btn-primary form-control" style="margin-top:1em">Enviar</button>
+
+
+    </form>
+
+</main>

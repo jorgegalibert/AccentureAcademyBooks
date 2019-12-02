@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i&display=swap" rel="stylesheet">
+    <link href="~/Content/Style.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/jquery.validate.js"></script> <!--VALIDACIONES-->
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script><!--VALIDACIONES-->
+    <title>Bilioteca</title>
+</head>
+
+<body>
+    <nav>
+        
+        <a href="https://localhost:44336/Libro/Listar" class="link"><strong> Libros </strong></a>
+        <a href="https://localhost:44336/Autor/Listar" class="link"><strong> Autores</strong></a>
+        <a href="https://localhost:44336/Genero/Listar" class="link"><strong>Géneros</strong></a>
+        <a href="https://localhost:44336/Editorial/Listar" class="link"><strong>Editoriales</strong></a>
+        <a href="https://localhost:44336/Catalogo/Listar" class="link"><strong>Catálogo</strong></a>
+
+
+    </nav>
+    <header>
+        <button class="material-icons">menu</button>
+        <h1>Biblioteca Virtual</h1>
+        <div></div>
+    </header>
+    <main>
+        @RenderBody()
+
+    </main>
+    <footer>
+        <p> Copyright - 2019</p>
+        <p id="contacto">
+            &copy; Todos los derechos reservados |
+            <span>J</span>orge <span>G</span>alibert
+        </p>
+    </footer>
+    <script src="~/Scripts/PersonalScript.js"></script>
+</body>
+
+</html>

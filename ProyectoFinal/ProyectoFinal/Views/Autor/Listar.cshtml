@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ProyectoFinal.Models.Autor>
+
+<h1> @this.ViewBag.TituloPagina </h1>
+
+<main class="container">
+    <div class="text-right">
+
+
+        <!-- <a href="/Movie/Agregar" class="glyphicon glyphicon-plus" style="font-size: 1.5em"></a>-->
+    </div>
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Nacionalidad</th>
+                <th>Lengua Materna</th>
+                <th>Fecha de nacimiento</th>
+                <th>Area de especialidad</th>
+
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in this.Model.OrderBy(i => i.Nombre))
+            {
+                <tr>
+                    <td>@a.Nombre</td>
+                    <td>@a.Nacionalidad</td>
+                    <td>@a.LenguaMaterna</td>
+                    <td>@a.FechaDeNacimiento.ToShortDateString()</td>
+                    <td>@a.AreaDeEspecialidad</td>
+
+
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>

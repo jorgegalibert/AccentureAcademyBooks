@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ProyectoFinal.Models.Libro>
+
+    <h1> @this.ViewBag.TituloPagina </h1>
+
+    <main class="container">
+        <div class="text-right">
+            @Html.ActionLink(" ", "Agregar", null,
+        new
+        {
+            @class = "glyphicon glyphicon-plus",
+            style = "font-size: 1.5em"
+             })
+
+            <!-- <a href="/Movie/Agregar" class="glyphicon glyphicon-plus" style="font-size: 1.5em"></a>-->
+        </div>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Género</th>
+                    <th>Formato</th>
+                    <th>Fecha de publicación</th>
+                    <th>Idioma</th>
+                    <th>ISBN</th>
+                    <th>Número de páginas</th>
+                    <th>Editorial</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var l in this.Model.OrderBy(i => i.Titulo))
+                {
+                    <tr>
+                        <td>@l.Titulo</td>
+                        <td>@l.Autor</td>
+                        <td>@l.Genero</td>
+                        <td>@l.Formato</td>
+                        <td>@l.FechaDePublicacion.ToShortDateString()</td>
+                        <td>@l.Idioma</td>
+                        <td>@l.ISBN</td>
+                        <td>@l.NumPags</td>
+                        <td>@l.Editorial</td>
+
+                        <td>
+                            @Html.ActionLink(" ", "Editar", new { Id = l.Id },
+                            new
+                            {
+                                @class = "glyphicon glyphicon-pencil",
+                                style = "font-size: 1.5em"
+                                 })
+
+                            &nbsp &nbsp &nbsp &nbsp &nbsp
+
+                            @Html.ActionLink(" ", "Eliminar", new { Id = l.Id },
+                             new
+                             {
+                                 @class = "glyphicon glyphicon-trash",
+                                 style = "font-size: 1.5em"
+                                  })
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
